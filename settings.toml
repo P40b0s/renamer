@@ -1,0 +1,3 @@
+in_dir = "in"
+out_dir = "out"
+timer = 10000
