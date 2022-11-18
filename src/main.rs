@@ -11,7 +11,7 @@ fn main()
 {
    if let Some(settings) = Settings::load_settings()
    {
-        let mut except = copy::write_except_file(&settings);
+        let mut except = copy::get_except_names(&settings);
         if except.is_some()
         {
             let mut except = except.as_mut().unwrap();
@@ -21,13 +21,16 @@ fn main()
                 thread::sleep(Duration::from_millis(settings.timer));
             }
         }
+        else
         {
-           
+            println!("Ошибка получения списка фафлов...");
+            std::io::stdin().read_line(&mut String::new()).unwrap();
         }
    }
    else 
    {
-        std::process::exit(1);
+        println!("Ошибка чтения настроек...");
+        std::io::stdin().read_line(&mut String::new()).unwrap();
    }
 }
 

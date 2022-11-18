@@ -1,7 +1,7 @@
 use std::{self, path::{Path}};
 use crate::settings::Settings;
 
-pub fn write_except_file(settings: &Settings) -> Option<Vec<String>>
+pub fn get_except_names(settings: &Settings) -> Option<Vec<String>>
 {
     if let Some(dirs) = get_dirs(settings)
     {

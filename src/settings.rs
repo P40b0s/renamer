@@ -1,5 +1,4 @@
 use std::{fs, path::PathBuf};
-use toml;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -15,22 +14,16 @@ impl Settings
     pub fn load_settings() -> Option<Settings>
     {
         let mut file = std::env::current_dir().expect("Невозможно определить текущую директорию!");
-        file.push("settings.toml");
+        file.push("settings.json");
         let contents = match fs::read_to_string(&file) 
         {
-            
             Ok(c) => c,
             Err(_) => {
                 eprintln!("Немогу открыть файл `{}`", &file.display());
                 return None;
             }
         };
-        let mut s = String::new();
-        for l in contents.lines()
-        {
-            s.push_str(l);
-        }
-        let data: Settings = match toml::from_str(&s) 
+        let data: Settings = match serde_json::from_str(&contents) 
         {
             Ok(d) => d,
             Err(e) => 
