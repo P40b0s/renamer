@@ -1,5 +1,6 @@
 #директория в которой будут переименовываться директории согласно карте
 target_dir = "/home/phobos/projects/rust/renemaer_data"
+#директории в которые возможно копировать пакеты, если пусто то такое меню появлятся не будет
 copy_targets = [
     "/home/phobos/projects/rust/renemaer_data/target_1",
     "/home/phobos/projects/rust/renemaer_data/target_2",

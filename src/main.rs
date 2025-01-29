@@ -64,7 +64,6 @@ fn rename(settings: Settings)
                         Menu::ToGis => settings.get_second_name_by_first_name(dir_name),
                         Menu::FromGis => settings.get_first_name_by_second_name(dir_name),
                         Menu::Skip => break,
-
                     };
                     if let Some(nn) = new_name
                     {
