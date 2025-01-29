@@ -2,10 +2,10 @@ mod settings;
 mod menu;
 mod progressbar;
 mod zipper;
-use std::{fs::File, io::Write, path::{Path, PathBuf}, time::Duration};
-use menu::{CopyMenu, Menu};
+use std::{path::Path, time::Duration};
+use menu::CopyMenu;
 use progressbar::progressbar;
-use settings::{Mapping, SearchResult, Settings};
+use settings::{SearchResult, Settings};
 
 
 
@@ -46,8 +46,9 @@ fn exit()
 
 fn get_source_dirs(settings: &Settings) -> Option<Vec<SearchResult>>
 {
-    if let Some(dirs) = utilites::io::get_only_dirs(&settings.source_directory)
+    if let Some(dirs) = utilites::io::get_only_dirs(&settings.source_directory).as_mut()
     {
+        dirs.sort_by_key(|k| k.iter().last().unwrap().to_os_string());
         let mut result: Vec<SearchResult> = Vec::with_capacity(dirs.len());
         for path in dirs.into_iter()
         {
@@ -84,7 +85,6 @@ fn copy(settings: Settings)
     {
         let selected_menu = menu::copy_menu(&settings,  &dirs);
         let pb = progressbar(selected_menu.len() as u64);
-        let mut has_errors = false;
         for  menu in selected_menu
         {
            match menu
@@ -101,18 +101,17 @@ fn copy(settings: Settings)
                         let error = format!("🔴 Ошибка архивирования {} в {} -> {}", source_path.display(), target_path.display(), compressed.err().unwrap());
                         pb.println(&error);
                         errors.push(error);
-                        has_errors = true;
                     }
                     else 
                     {
-                        pb.println(&[target_dir, " ✅"].concat());
+                        pb.println(&["✅ ", target_dir].concat());
                         pb.inc(1);
                     }
                 },
                 _ => ()
            };
         }
-        if has_errors
+        if errors.len() > 0
         {
             pb.finish_with_message("Архивирование завершено с ошибками");
             for e in errors

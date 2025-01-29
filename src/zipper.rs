@@ -1,4 +1,4 @@
-use std::{fs::File, io::Write, path::{Path, PathBuf}};
+use std::{fs::File, io::Write, path::Path};
 use zip::{write::{FileOptions, SimpleFileOptions}, ZipWriter};
 
 ///`progress_bar` для оповещения юзера
@@ -63,17 +63,14 @@ pub fn zip_packet(progress_bar: &indicatif::ProgressBar, packet_name: &str, src:
 mod tests
 {
     use std::path::Path;
-
-    use zip::write::SimpleFileOptions;
-
     use crate::progressbar;
 
     #[test]
     fn test_recursive()
     {
-        logger::StructLogger::new_default();
+        let _ = logger::StructLogger::new_default();
         let pb = progressbar(1);
-        super::zip_packet(&pb, "r013100000", Path::new("/home/phobos/projects/rust/renemaer_data/r013100"), Path::new("/home/phobos/projects/rust/renemaer_data/target_1"));
+        let _ = super::zip_packet(&pb, "r013100000", Path::new("/home/phobos/projects/rust/renemaer_data/r013100"), Path::new("/home/phobos/projects/rust/renemaer_data/target_1"));
 
     }
 }
