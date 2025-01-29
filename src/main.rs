@@ -75,6 +75,8 @@ fn rename(settings: Settings)
                     pb.inc(1);
                 }   
             }
+            pb.finish_with_message("переименование завершено");
+            std::thread::sleep(Duration::from_millis(2000));
             pb.finish_and_clear();
             copy(&settings, &dirs);
         }
