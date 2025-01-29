@@ -77,7 +77,11 @@ fn rename(settings: Settings)
             pb.finish_with_message("переименование завершено");
             std::thread::sleep(Duration::from_millis(2000));
             pb.finish_and_clear();
-            copy(&settings, &dirs);
+            //после переименования директории поменялись, нужно их просканировать еще раз
+            if let Some(dirs) = utilites::io::get_only_dirs(&settings.target_dir)
+            {
+                copy(&settings, &dirs);
+            }
         }
         std::thread::sleep(Duration::from_millis(3000));
     }
