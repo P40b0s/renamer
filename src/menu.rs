@@ -1,6 +1,6 @@
-use std::fmt::Display;
+use std::{fmt::Display, path::PathBuf};
 
-use dialoguer::{theme::ColorfulTheme, FuzzySelect};
+use dialoguer::{theme::ColorfulTheme, FuzzySelect, MultiSelect};
 
 use crate::settings::Settings;
 
@@ -116,4 +116,28 @@ pub fn copy_menu(settings: &Settings) -> CopyMenu
         .unwrap();
     let item = selections.swap_remove(selection);
     item
+}
+
+
+
+
+pub fn update_menu(update_from_dirs: &Vec<PathBuf>)
+{
+    let multiselected: Vec<&str> = update_from_dirs.iter().filter(|m| m.is_dir()).filter_map(|f|f.file_name().and_then(|n| n.to_str())).collect();
+    
+    let defaults = &[false];
+    let selections = MultiSelect::with_theme(&ColorfulTheme::default())
+        .with_prompt("Выберите пакеты для обновления")
+        .items(&multiselected[..])
+        .defaults(&defaults[..])
+        .interact()
+        .unwrap();
+
+    if selections.is_empty() 
+    {
+        println!("Вы не выбрали ни один пакет");
+    } 
+    for selection in selections {
+        println!("  {}", multiselected[selection]);
+    }
 }

@@ -23,3 +23,4 @@ pub fn progressbar(len: u64) -> ProgressBar
     pb.enable_steady_tick(Duration::from_millis(120));
     pb
 }
+

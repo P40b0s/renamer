@@ -6,6 +6,8 @@ copy_targets = [
     "/home/phobos/projects/rust/renemaer_data/target_2",
     "/home/phobos/projects/rust/renemaer_data/target_3"
 ]
+#директория из которой можно апдейтить пакеты в целевой директории
+update_from = "/home/phobos/projects/rust/renemaer_data/target_3"
 #карта переименования директорий
 names_map = [
     ["r013100", "r013100000"],
