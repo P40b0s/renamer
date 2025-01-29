@@ -1,0 +1,10 @@
+target_dir = 'C:\files'
+copy_targets = []
+
+[map.r013100]
+dir_name = "r013100000"
+bank_name = "Банк бла бла бла"
+
+[map.r013200]
+dir_name = "r013200000"
+

@@ -1,0 +1,18 @@
+[29-01-2025 19:59:16]-[renamer::settings:40]:❌ Ошибка -> Ошибка загрузки файла конфигурации config.toml -> TOML parse error at line 1, column 1
+  |
+1 | #директория из которой будут копироваться пакеты
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+missing field `last_selected`
+
+[29-01-2025 19:59:51]-[renamer::settings:40]:❌ Ошибка -> Ошибка загрузки файла конфигурации config.toml -> TOML parse error at line 1, column 1
+  |
+1 | source_directory = "/home/phobos/projects/rust/renemaer_data"
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+missing field `last_selected`
+
+[29-01-2025 20:25:54]-[renamer::settings:40]:❌ Ошибка -> Ошибка загрузки файла конфигурации config.toml -> TOML parse error at line 7, column 1
+  |
+7 | [map.r013100] 
+  | ^^^^^^^^^^^^^^
+missing field `selected`
+
