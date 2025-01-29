@@ -1,10 +1,12 @@
 mod settings;
 mod menu;
 mod progressbar;
-use std::{path::{Path, PathBuf}, time::Duration};
+mod zipper;
+use std::{fs::File, io::Write, path::{Path, PathBuf}, time::Duration};
 use menu::{CopyMenu, Menu};
 use progressbar::progressbar;
 use settings::{Mapping, SearchResult, Settings};
+
 
 
 fn main()
@@ -17,7 +19,7 @@ fn load_config()
 {
     if let Some(settings) = settings::Settings::load_settings()
     {
-        rename(settings);
+        copy(settings);
     }
     else 
     {
@@ -41,7 +43,7 @@ fn exit()
         std::process::exit(0);
     }
 }
-///(PathBuf, String) (полный путь)
+
 fn get_source_dirs(settings: &Settings) -> Option<Vec<SearchResult>>
 {
     if let Some(dirs) = utilites::io::get_only_dirs(&settings.source_directory)
@@ -68,16 +70,6 @@ fn get_source_dirs(settings: &Settings) -> Option<Vec<SearchResult>>
             }
         }
         Some(result)
-        // Some(
-        //     dirs
-        //     .into_iter()
-        //     .filter_map(|f| f.file_name().as_ref()
-        //     .and_then(|os| os.to_str()
-        //     .and_then(|ext| settings.get_mapping(ext)
-        //     .and_then(|_| Some((f,ext.to_owned()))))))
-        //     .collect()
-        // )
-        
     }
     else 
     {
@@ -85,14 +77,14 @@ fn get_source_dirs(settings: &Settings) -> Option<Vec<SearchResult>>
     }
 }
 
-fn rename(settings: Settings) 
+fn copy(settings: Settings) 
 {
-   
+    let mut errors = Vec::new();
     if let Some(dirs) = get_source_dirs(&settings)
     {
-        //FIXME одновременно выбраны пакеты и меню выход
         let selected_menu = menu::copy_menu(&settings,  &dirs);
         let pb = progressbar(selected_menu.len() as u64);
+        let mut has_errors = false;
         for  menu in selected_menu
         {
            match menu
@@ -100,84 +92,40 @@ fn rename(settings: Settings)
                 CopyMenu::Copy(val) =>
                 {
                     let source_path = &val.packet_source_path;
-                    let target_path = Path::new(&settings.target_directory).join(&val.map.borrow().dir_name);
-                    let mut has_errors = false;
-                    let cr = utilites::io::copy_dir_all(source_path, &target_path);
-                    if cr.is_err()
+                    let target_path = Path::new(&settings.target_directory);
+                    let target_dir = &val.map.borrow().dir_name;
+                    pb.set_prefix(target_dir.to_owned());
+                    let compressed = zipper::zip_packet(&pb, target_dir, source_path, target_path);
+                    if compressed.is_err()
                     {
-                        logger::error!("Ошибка копирования {} в {} -> {}", source_path.display(), &target_path.display(), cr.err().unwrap());
+                        let error = format!("🔴 Ошибка архивирования {} в {} -> {}", source_path.display(), target_path.display(), compressed.err().unwrap());
+                        pb.println(&error);
+                        errors.push(error);
                         has_errors = true;
                     }
                     else 
                     {
-                        pb.inc(1);    
-                    }
-                    if has_errors
-                    {
-                        pb.finish_with_message("Копирование завершено с ошибками");
-                    }
-                    else 
-                    {
-                        pb.finish_with_message("Копирование завершено");  
+                        pb.println(&[target_dir, " ✅"].concat());
+                        pb.inc(1);
                     }
                 },
                 _ => ()
            };
         }
-        std::thread::sleep(Duration::from_millis(3000));
+        if has_errors
+        {
+            pb.finish_with_message("Архивирование завершено с ошибками");
+            for e in errors
+            {
+                logger::error!("{}", e);
+            }
+        }
+        else 
+        {
+            pb.finish_with_message("Архивирование завершено");
+        }
+        std::thread::sleep(Duration::from_millis(3000)); 
+        
     }
 }
 
-// fn copy(settings: &Settings, dirs: &Vec<PathBuf>)
-// {
-//     if settings.copy_targets.len() > 0
-//     {
-//         match menu::copy_menu(&settings)
-//         {
-//             menu::CopyMenu::Copy(path) =>
-//             {
-//                 let path: PathBuf = path.into();
-//                 if std::fs::exists(&path).is_ok_and(|f| f == true)
-//                 {
-//                     let pb = progressbar(dirs.len() as u64);
-//                     let mut has_errors = false;
-//                     for d in dirs
-//                     {
-//                         if let Some(name) = d.file_name().and_then(|f| f.to_str())
-//                         {
-//                             if true //settings.get_second_name_by_first_name(name).is_some() || settings.get_first_name_by_second_name(name).is_some()
-//                             {
-//                                 let target_path = Path::new(&path).join(name);
-//                                 let cr = utilites::io::copy_dir_all(d, &target_path);
-//                                 if cr.is_err()
-//                                 {
-//                                     logger::error!("Ошибка копирования {} -> {}", d.display(), cr.err().unwrap());
-//                                     has_errors = true;
-//                                 }
-//                                 else 
-//                                 {
-//                                     pb.inc(1);    
-//                                 }
-//                             }
-//                         }
-//                     }
-//                     if has_errors
-//                     {
-//                         pb.finish_with_message("Копирование завершено с ошибками");
-//                     }
-//                     else 
-//                     {
-//                         pb.finish_with_message("Копирование завершено");  
-//                     }
-//                 }
-//                 else 
-//                 {
-//                     logger::error!("Директория назначения {} не существует", &path.display());
-//                     std::thread::sleep(Duration::from_millis(3000));
-//                     exit();
-//                 }
-//             },
-//             menu::CopyMenu::Exit => exit(),
-//         }
-//     }
-// }
