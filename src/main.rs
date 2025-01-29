@@ -47,58 +47,9 @@ fn rename(settings: Settings)
     let menu = menu::select_rename_menu();
     if let Some(dirs) = utilites::io::get_only_dirs(&settings.target_dir)
     {
-        if let _ = Menu::Skip
+        if let Menu::Skip = menu 
         {
-            if settings.copy_targets.len() > 0
-            {
-                match menu::copy_menu(&settings)
-                {
-                    menu::CopyMenu::Copy(path) =>
-                    {
-                        let path: PathBuf = path.into();
-                        if std::fs::exists(&path).is_ok_and(|f| f == true)
-                        {
-                            let pb = progressbar(dirs.len() as u64);
-                            let mut has_errors = false;
-                            for d in &dirs
-                            {
-                                if let Some(name) = d.file_name().and_then(|f| f.to_str())
-                                {
-                                    if settings.get_second_name_by_first_name(name).is_some() || settings.get_first_name_by_second_name(name).is_some()
-                                    {
-                                        let target_path = Path::new(&path).join(name);
-                                        let cr = utilites::io::copy_dir_all(d, &target_path);
-                                        if cr.is_err()
-                                        {
-                                            logger::error!("Ошибка копирования {} -> {}", d.display(), cr.err().unwrap());
-                                            has_errors = true;
-                                        }
-                                        else 
-                                        {
-                                            pb.inc(1);    
-                                        }
-                                    }
-                                }
-                            }
-                            if has_errors
-                            {
-                                pb.finish_with_message("Копирование завершено с ошибками");
-                            }
-                            else 
-                            {
-                                pb.finish_with_message("Копирование завершено");  
-                            }
-                        }
-                        else 
-                        {
-                            logger::error!("Директория назначения {} не существует", &path.display());
-                            std::thread::sleep(Duration::from_millis(3000));
-                            exit();
-                        }
-                    },
-                    menu::CopyMenu::Exit => exit(),
-                }
-            }
+            copy(&settings, &dirs);
         }
         else 
         {
@@ -125,7 +76,62 @@ fn rename(settings: Settings)
                 }   
             }
             pb.finish_and_clear();
+            copy(&settings, &dirs);
         }
         std::thread::sleep(Duration::from_millis(3000));
+    }
+}
+
+fn copy(settings: &Settings, dirs: &Vec<PathBuf>)
+{
+    if settings.copy_targets.len() > 0
+    {
+        match menu::copy_menu(&settings)
+        {
+            menu::CopyMenu::Copy(path) =>
+            {
+                let path: PathBuf = path.into();
+                if std::fs::exists(&path).is_ok_and(|f| f == true)
+                {
+                    let pb = progressbar(dirs.len() as u64);
+                    let mut has_errors = false;
+                    for d in dirs
+                    {
+                        if let Some(name) = d.file_name().and_then(|f| f.to_str())
+                        {
+                            if settings.get_second_name_by_first_name(name).is_some() || settings.get_first_name_by_second_name(name).is_some()
+                            {
+                                let target_path = Path::new(&path).join(name);
+                                let cr = utilites::io::copy_dir_all(d, &target_path);
+                                if cr.is_err()
+                                {
+                                    logger::error!("Ошибка копирования {} -> {}", d.display(), cr.err().unwrap());
+                                    has_errors = true;
+                                }
+                                else 
+                                {
+                                    pb.inc(1);    
+                                }
+                            }
+                        }
+                    }
+                    if has_errors
+                    {
+                        pb.finish_with_message("Копирование завершено с ошибками");
+                    }
+                    else 
+                    {
+                        pb.finish_with_message("Копирование завершено");  
+                    }
+                }
+                else 
+                {
+                    logger::error!("Директория назначения {} не существует", &path.display());
+                    std::thread::sleep(Duration::from_millis(3000));
+                    exit();
+                }
+            },
+            menu::CopyMenu::Exit => exit(),
+        }
     }
 }
