@@ -98,7 +98,7 @@ fn copy(settings: Settings)
                     let compressed = zipper::zip_packet(&pb, target_dir, source_path, target_path);
                     if compressed.is_err()
                     {
-                        let error = format!("🔴 Ошибка архивирования {} в {} -> {}", source_path.display(), target_path.display(), compressed.err().unwrap());
+                        let error = format!("Ошибка архивирования {} в {} -> {}", source_path.display(), target_path.display(), compressed.err().unwrap());
                         pb.println(&error);
                         errors.push(error);
                     }

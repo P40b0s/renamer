@@ -1,65 +1,72 @@
-target_directory = "/home/phobos/projects/rust/renemaer_data/target_3"
+target_directory = "/home/phobos/projects/rust/renemaer_data/target_1"
 source_directory = "/home/phobos/projects/rust/renemaer_data"
 
-[map.r016800]
-dir_name = "r016800000"
+[map.r015700]
+dir_name = "r015700000"
 selected = false
+
+[map.r013600]
+dir_name = "r013600000"
+selected = true
 
 [map.r022902]
 dir_name = "r028300000"
 selected = true
 
-[map.r065400]
-dir_name = "r065400000"
+[map.r072800]
+dir_name = "r072800000"
 selected = false
 
-[map.r014800]
-dir_name = "r014800000"
+[map.r023900]
+dir_name = "r023900000"
 selected = false
 
-[map.r024700]
-dir_name = "r024700000"
+[map.r044300]
+dir_name = "r044300000"
 selected = false
 
-[map.r021000]
-dir_name = "r021000000"
+[map.r046400]
+dir_name = "r046400000"
 selected = false
 
-[map.r041200]
-dir_name = "r041200000"
+[map.r013300]
+dir_name = "r013300000"
 selected = false
 
-[map.r030100]
-dir_name = "r030100000"
+[map.r022900]
+dir_name = "r022900000"
 selected = false
 
-[map.r060200]
-dir_name = "r060200000"
+[map.r074100]
+dir_name = "r074100000"
 selected = false
 
-[map.r013100]
-dir_name = "r013100000"
-bank_name = "Банк бла бла бла"
+[map.r030820]
+dir_name = "r038200000"
 selected = true
 
-[map.r033400]
-dir_name = "r033400000"
+[map.r027800]
+dir_name = "r027800000"
 selected = false
 
-[map.r041300]
-dir_name = "r041300000"
+[map.r057200]
+dir_name = "r057200000"
 selected = false
 
 [map.r071400]
 dir_name = "r071400000"
 selected = false
 
-[map.r062400]
-dir_name = "r062400000"
+[map.r080500]
+dir_name = "r080500000"
 selected = false
 
-[map.r067500]
-dir_name = "r067500000"
+[map.r077900]
+dir_name = "r077900000"
+selected = false
+
+[map.r054500]
+dir_name = "r054500000"
 selected = false
 
 [map.r063800]
@@ -70,202 +77,195 @@ selected = false
 dir_name = "r064200000"
 selected = false
 
-[map.r041800]
-dir_name = "r041800000"
+[map.r062200]
+dir_name = "r062200000"
 selected = false
 
 [map.r016900]
 dir_name = "r016900000"
 selected = false
 
-[map.r016700]
-dir_name = "r016700000"
+[map.r016800]
+dir_name = "r016800000"
 selected = false
 
-[map.r067000]
-dir_name = "r067000000"
-selected = false
-
-[map.r057200]
-dir_name = "r057200000"
-selected = false
-
-[map.r045200]
-dir_name = "r045200000"
-selected = false
-
-[map.r014000]
-dir_name = "r014000000"
-selected = false
-
-[map.r076500]
-dir_name = "r076500000"
-selected = false
-
-[map.r036100]
-dir_name = "r036100000"
-selected = false
-
-[map.r072500]
-dir_name = "r072500000"
-selected = false
-
-[map.r023900]
-dir_name = "r023900000"
-selected = false
-
-[map.r098200]
-dir_name = "r098200000"
-selected = false
-
-[map.r014400]
-dir_name = "r014400000"
-selected = false
-
-[map.r023500]
-dir_name = "r023500000"
-selected = false
-
-[map.r030820]
-dir_name = "r038200000"
-selected = true
-
-[map.r061900]
-dir_name = "r061900000"
-selected = false
-
-[map.r016200]
-dir_name = "r016200000"
-selected = false
-
-[map.r013300]
-dir_name = "r013300000"
-selected = false
-
-[map.r042100]
-dir_name = "r042100000"
+[map.r024700]
+dir_name = "r024700000"
 selected = false
 
 [map.r080700]
 dir_name = "r080700000"
 selected = false
 
-[map.r027800]
-dir_name = "r027800000"
+[map.r046300]
+dir_name = "r046300000"
 selected = false
 
 [map.r033000]
 dir_name = "r033000000"
 selected = false
 
-[map.r025100]
-dir_name = "r025100000"
+[map.r065400]
+dir_name = "r065400000"
 selected = false
 
-[map.r058900]
-dir_name = "r058900000"
-selected = false
-
-[map.r057400]
-dir_name = "r057400000"
-selected = false
-
-[map.r013600]
-dir_name = "r013600000"
-selected = true
-
-[map.r077900]
-dir_name = "r077900000"
-selected = false
-
-[map.r054500]
-dir_name = "r054500000"
-selected = false
-
-[map.r081500]
-dir_name = "r081500000"
-selected = false
-
-[map.r040300]
-dir_name = "r040300000"
+[map.r033400]
+dir_name = "r033400000"
 selected = false
 
 [map.r017100]
 dir_name = "r017100000"
 selected = false
 
-[map.r015000]
-dir_name = "r015000000"
+[map.r058900]
+dir_name = "r058900000"
 selected = false
 
-[map.r017600]
-dir_name = "r017600000"
+[map.r042100]
+dir_name = "r042100000"
 selected = false
 
-[map.r046400]
-dir_name = "r046400000"
+[map.r014000]
+dir_name = "r014000000"
 selected = false
 
-[map.r041600]
-dir_name = "r041600000"
+[map.r014800]
+dir_name = "r014800000"
 selected = false
 
-[map.r080500]
-dir_name = "r080500000"
+[map.r040300]
+dir_name = "r040300000"
 selected = false
 
-[map.r082600]
-dir_name = "r082600000"
+[map.r045200]
+dir_name = "r045200000"
 selected = false
 
-[map.r013700]
-dir_name = "r013700000"
-selected = false
-
-[map.r044300]
-dir_name = "r044300000"
-selected = false
-
-[map.r072800]
-dir_name = "r072800000"
-selected = false
-
-[map.r030800]
-dir_name = "r030800000"
+[map.r023500]
+dir_name = "r023500000"
 selected = false
 
 [map.r021100]
 dir_name = "r021100000"
 selected = false
 
-[map.r015700]
-dir_name = "r015700000"
-selected = false
-
 [map.r061700]
 dir_name = "r061700000"
 selected = false
 
-[map.r022900]
-dir_name = "r022900000"
+[map.r041600]
+dir_name = "r041600000"
 selected = false
 
-[map.r047300]
-dir_name = "r047300000"
+[map.r021000]
+dir_name = "r021000000"
 selected = false
 
-[map.r046300]
-dir_name = "r046300000"
+[map.r015000]
+dir_name = "r015000000"
 selected = false
 
-[map.r062200]
-dir_name = "r062200000"
+[map.r067000]
+dir_name = "r067000000"
+selected = false
+
+[map.r060200]
+dir_name = "r060200000"
+selected = false
+
+[map.r041200]
+dir_name = "r041200000"
+selected = false
+
+[map.r062400]
+dir_name = "r062400000"
+selected = false
+
+[map.r025100]
+dir_name = "r025100000"
+selected = false
+
+[map.r067500]
+dir_name = "r067500000"
+selected = false
+
+[map.r013100]
+dir_name = "r013100000"
+bank_name = "Банк бла бла бла"
+selected = true
+
+[map.r076500]
+dir_name = "r076500000"
+selected = false
+
+[map.r057400]
+dir_name = "r057400000"
+selected = false
+
+[map.r098200]
+dir_name = "r098200000"
+selected = false
+
+[map.r036100]
+dir_name = "r036100000"
+selected = false
+
+[map.r082600]
+dir_name = "r082600000"
 selected = false
 
 [map.r013200]
 dir_name = "r013200000"
 selected = false
 
-[map.r074100]
-dir_name = "r074100000"
+[map.r041300]
+dir_name = "r041300000"
+selected = false
+
+[map.r030800]
+dir_name = "r030800000"
+selected = false
+
+[map.r047300]
+dir_name = "r047300000"
+selected = false
+
+[map.r061900]
+dir_name = "r061900000"
+selected = false
+
+[map.r030100]
+dir_name = "r030100000"
+selected = false
+
+[map.r016700]
+dir_name = "r016700000"
+selected = false
+
+[map.r041800]
+dir_name = "r041800000"
+selected = false
+
+[map.r016200]
+dir_name = "r016200000"
+selected = false
+
+[map.r013700]
+dir_name = "r013700000"
+selected = false
+
+[map.r017600]
+dir_name = "r017600000"
+selected = false
+
+[map.r072500]
+dir_name = "r072500000"
+selected = false
+
+[map.r081500]
+dir_name = "r081500000"
+selected = false
+
+[map.r014400]
+dir_name = "r014400000"
 selected = false
