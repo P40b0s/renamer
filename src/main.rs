@@ -1,14 +1,17 @@
 mod settings;
 mod menu;
 mod progressbar;
-use std::{path::{Path, PathBuf}, time::Duration};
-use menu::Menu;
+mod zipper;
+use std::{path::Path, time::Duration};
+use menu::CopyMenu;
 use progressbar::progressbar;
-use settings::Settings;
+use settings::{SearchResult, Settings};
+
 
 
 fn main()
 {
+    let _  = logger::StructLogger::new_default();
     load_config();
 }
 
@@ -16,7 +19,7 @@ fn load_config()
 {
     if let Some(settings) = settings::Settings::load_settings()
     {
-        rename(settings);
+        copy(settings);
     }
     else 
     {
@@ -24,7 +27,6 @@ fn load_config()
         {
             menu::ConfigMenu::Reload => load_config(),
             menu::ConfigMenu::Exit => exit(),
-            
         }
 
     }
@@ -42,101 +44,87 @@ fn exit()
     }
 }
 
-fn rename(settings: Settings) 
+fn get_source_dirs(settings: &Settings) -> Option<Vec<SearchResult>>
 {
-    let menu = menu::select_rename_menu();
-    if let Some(dirs) = utilites::io::get_only_dirs(&settings.target_dir)
+    if let Some(dirs) = utilites::io::get_only_dirs(&settings.source_directory).as_mut()
     {
-        if let Menu::Skip = menu 
+        dirs.sort_by_key(|k| k.iter().last().unwrap().to_os_string());
+        let mut result: Vec<SearchResult> = Vec::with_capacity(dirs.len());
+        for path in dirs.into_iter()
         {
-            copy(&settings, &dirs);
-        }
-        else 
-        {
-            let pb = progressbar(dirs.len() as u64);
-            for dir in &dirs
+            if let Some(name) = path.file_name()
             {
-                if let Some(dir_name) = dir.file_name().and_then(|n| n.to_str())
+                if let Some(name) = name.to_str()
                 {
-                    let full_path = Path::new(&settings.target_dir).join(dir_name);
-                    let new_name = match menu
+                    if let Some(map) = settings.get_mapping(name)
                     {
-                        Menu::ToGis => settings.get_second_name_by_first_name(dir_name),
-                        Menu::FromGis => settings.get_first_name_by_second_name(dir_name),
-                        Menu::Skip => break,
-                    };
-                    if let Some(nn) = new_name
-                    {
-                        let new_name_full_path = Path::new(&settings.target_dir).join(nn);
-                        pb.set_message([dir_name, "-> ", nn].concat());
-                        let _ = std::fs::rename(full_path, new_name_full_path);
+                        result.push(
+                            SearchResult 
+                            { 
+                                packet_source_path: path.clone(),
+                                packet_dir_name: name.to_owned(),
+                                map
+                            }
+                        );
                     }
-                    pb.inc(1);
-                }   
-            }
-            pb.finish_with_message("переименование завершено");
-            std::thread::sleep(Duration::from_millis(2000));
-            pb.finish_and_clear();
-            //после переименования директории поменялись, нужно их просканировать еще раз
-            if let Some(dirs) = utilites::io::get_only_dirs(&settings.target_dir)
-            {
-                copy(&settings, &dirs);
+                }
             }
         }
-        std::thread::sleep(Duration::from_millis(3000));
+        Some(result)
+    }
+    else 
+    {
+        None
     }
 }
 
-fn copy(settings: &Settings, dirs: &Vec<PathBuf>)
+fn copy(settings: Settings) 
 {
-    if settings.copy_targets.len() > 0
+    let mut errors = Vec::new();
+    if let Some(dirs) = get_source_dirs(&settings)
     {
-        match menu::copy_menu(&settings)
+        let selected_menu = menu::copy_menu(&settings,  &dirs);
+        let pb = progressbar(selected_menu.len() as u64);
+        for  menu in selected_menu
         {
-            menu::CopyMenu::Copy(path) =>
-            {
-                let path: PathBuf = path.into();
-                if std::fs::exists(&path).is_ok_and(|f| f == true)
+           match menu
+           {
+                CopyMenu::Copy(val) =>
                 {
-                    let pb = progressbar(dirs.len() as u64);
-                    let mut has_errors = false;
-                    for d in dirs
+                    let source_path = &val.packet_source_path;
+                    let target_path = Path::new(&settings.target_directory);
+                    let target_dir = &val.map.borrow().dir_name;
+                    pb.set_prefix(target_dir.to_owned());
+                    let compressed = zipper::zip_packet(&pb, target_dir, source_path, target_path);
+                    if compressed.is_err()
                     {
-                        if let Some(name) = d.file_name().and_then(|f| f.to_str())
-                        {
-                            if settings.get_second_name_by_first_name(name).is_some() || settings.get_first_name_by_second_name(name).is_some()
-                            {
-                                let target_path = Path::new(&path).join(name);
-                                let cr = utilites::io::copy_dir_all(d, &target_path);
-                                if cr.is_err()
-                                {
-                                    logger::error!("Ошибка копирования {} -> {}", d.display(), cr.err().unwrap());
-                                    has_errors = true;
-                                }
-                                else 
-                                {
-                                    pb.inc(1);    
-                                }
-                            }
-                        }
-                    }
-                    if has_errors
-                    {
-                        pb.finish_with_message("Копирование завершено с ошибками");
+                        let error = format!("Ошибка архивирования {} в {} -> {}", source_path.display(), target_path.display(), compressed.err().unwrap());
+                        pb.println(&error);
+                        errors.push(error);
                     }
                     else 
                     {
-                        pb.finish_with_message("Копирование завершено");  
+                        pb.println(&["✅ ", target_dir].concat());
+                        pb.inc(1);
                     }
-                }
-                else 
-                {
-                    logger::error!("Директория назначения {} не существует", &path.display());
-                    std::thread::sleep(Duration::from_millis(3000));
-                    exit();
-                }
-            },
-            menu::CopyMenu::Exit => exit(),
+                },
+                _ => ()
+           };
         }
+        if errors.len() > 0
+        {
+            pb.finish_with_message("Архивирование завершено с ошибками");
+            for e in errors
+            {
+                logger::error!("{}", e);
+            }
+        }
+        else 
+        {
+            pb.finish_with_message("Архивирование завершено");
+        }
+        std::thread::sleep(Duration::from_millis(3000)); 
+        
     }
 }
+

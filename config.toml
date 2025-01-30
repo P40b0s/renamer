@@ -1,80 +1,271 @@
-#директория в которой будут переименовываться директории согласно карте
-target_dir = "/home/phobos/projects/rust/renemaer_data"
-#директории в которые возможно копировать пакеты, если пусто то такое меню появлятся не будет
-copy_targets = [
-    "/home/phobos/projects/rust/renemaer_data/target_1",
-    "/home/phobos/projects/rust/renemaer_data/target_2",
-    "/home/phobos/projects/rust/renemaer_data/target_3"
-]
-#директория из которой можно апдейтить пакеты в целевой директории
-update_from = "/home/phobos/projects/rust/renemaer_data/target_3"
-#карта переименования директорий
-names_map = [
-    ["r013100", "r013100000"],
-    ["r013200", "r013200000"],
-    ["r013300", "r013300000"],
-    ["r013600", "r013600000"],
-    ["r013700", "r013700000"],
-    ["r014000", "r014000000"],
-    ["r014400", "r014400000"],
-    ["r014800", "r014800000"],
-    ["r015000", "r015000000"],
-    ["r015700", "r015700000"],
-    ["r016200", "r016200000"],
-    ["r016700", "r016700000"],
-    ["r016800", "r016800000"],
-    ["r016900", "r016900000"],
-    ["r017100", "r017100000"],
-    ["r017600", "r017600000"],
-    ["r021000", "r021000000"],
-    ["r021100", "r021100000"],
-    ["r022900", "r022900000"],
-    ["r022902", "r028300000"],
-    ["r023500", "r023500000"],
-    ["r023900", "r023900000"],
-    ["r024700", "r024700000"],
-    ["r025100", "r025100000"],
-    ["r027800", "r027800000"],
-    ["r030100", "r030100000"],
-    ["r030800", "r030800000"],
-    ["r030820", "r038200000"],
-    ["r033000", "r033000000"],
-    ["r033400", "r033400000"],
-    ["r036100", "r036100000"],
-    ["r040300", "r040300000"],
-    ["r041200", "r041200000"],
-    ["r041300", "r041300000"],
-    ["r041600", "r041600000"],
-    ["r041800", "r041800000"],
-    ["r042100", "r042100000"],
-    ["r044300", "r044300000"],
-    ["r045200", "r045200000"],
-    ["r046300", "r046300000"],
-    ["r046400", "r046400000"],
-    ["r047300", "r047300000"],
-    ["r054500", "r054500000"],
-    ["r057200", "r057200000"],
-    ["r057400", "r057400000"],
-    ["r058900", "r058900000"],
-    ["r060200", "r060200000"],
-    ["r061700", "r061700000"],
-    ["r061900", "r061900000"],
-    ["r062200", "r062200000"],
-    ["r062400", "r062400000"],
-    ["r063800", "r063800000"],
-    ["r064200", "r064200000"],
-    ["r065400", "r065400000"],
-    ["r067000", "r067000000"],
-    ["r067500", "r067500000"],
-    ["r071400", "r071400000"],
-    ["r072500", "r072500000"],
-    ["r072800", "r072800000"],
-    ["r074100", "r074100000"],
-    ["r076500", "r076500000"],
-    ["r077900", "r077900000"],
-    ["r080500", "r080500000"],
-    ["r080700", "r080700000"],
-    ["r081500", "r081500000"],
-    ["r082600", "r082600000"],
-    ["r098200", "r098200000"]
-]
+target_directory = "/home/phobos/projects/rust/renemaer_data/target_1"
+source_directory = "/home/phobos/projects/rust/renemaer_data"
+
+[map.r015700]
+dir_name = "r015700000"
+selected = false
+
+[map.r013600]
+dir_name = "r013600000"
+selected = true
+
+[map.r022902]
+dir_name = "r028300000"
+selected = true
+
+[map.r072800]
+dir_name = "r072800000"
+selected = false
+
+[map.r023900]
+dir_name = "r023900000"
+selected = false
+
+[map.r044300]
+dir_name = "r044300000"
+selected = false
+
+[map.r046400]
+dir_name = "r046400000"
+selected = false
+
+[map.r013300]
+dir_name = "r013300000"
+selected = false
+
+[map.r022900]
+dir_name = "r022900000"
+selected = false
+
+[map.r074100]
+dir_name = "r074100000"
+selected = false
+
+[map.r030820]
+dir_name = "r038200000"
+selected = true
+
+[map.r027800]
+dir_name = "r027800000"
+selected = false
+
+[map.r057200]
+dir_name = "r057200000"
+selected = false
+
+[map.r071400]
+dir_name = "r071400000"
+selected = false
+
+[map.r080500]
+dir_name = "r080500000"
+selected = false
+
+[map.r077900]
+dir_name = "r077900000"
+selected = false
+
+[map.r054500]
+dir_name = "r054500000"
+selected = false
+
+[map.r063800]
+dir_name = "r063800000"
+selected = false
+
+[map.r064200]
+dir_name = "r064200000"
+selected = false
+
+[map.r062200]
+dir_name = "r062200000"
+selected = false
+
+[map.r016900]
+dir_name = "r016900000"
+selected = false
+
+[map.r016800]
+dir_name = "r016800000"
+selected = false
+
+[map.r024700]
+dir_name = "r024700000"
+selected = false
+
+[map.r080700]
+dir_name = "r080700000"
+selected = false
+
+[map.r046300]
+dir_name = "r046300000"
+selected = false
+
+[map.r033000]
+dir_name = "r033000000"
+selected = false
+
+[map.r065400]
+dir_name = "r065400000"
+selected = false
+
+[map.r033400]
+dir_name = "r033400000"
+selected = false
+
+[map.r017100]
+dir_name = "r017100000"
+selected = false
+
+[map.r058900]
+dir_name = "r058900000"
+selected = false
+
+[map.r042100]
+dir_name = "r042100000"
+selected = false
+
+[map.r014000]
+dir_name = "r014000000"
+selected = false
+
+[map.r014800]
+dir_name = "r014800000"
+selected = false
+
+[map.r040300]
+dir_name = "r040300000"
+selected = false
+
+[map.r045200]
+dir_name = "r045200000"
+selected = false
+
+[map.r023500]
+dir_name = "r023500000"
+selected = false
+
+[map.r021100]
+dir_name = "r021100000"
+selected = false
+
+[map.r061700]
+dir_name = "r061700000"
+selected = false
+
+[map.r041600]
+dir_name = "r041600000"
+selected = false
+
+[map.r021000]
+dir_name = "r021000000"
+selected = false
+
+[map.r015000]
+dir_name = "r015000000"
+selected = false
+
+[map.r067000]
+dir_name = "r067000000"
+selected = false
+
+[map.r060200]
+dir_name = "r060200000"
+selected = false
+
+[map.r041200]
+dir_name = "r041200000"
+selected = false
+
+[map.r062400]
+dir_name = "r062400000"
+selected = false
+
+[map.r025100]
+dir_name = "r025100000"
+selected = false
+
+[map.r067500]
+dir_name = "r067500000"
+selected = false
+
+[map.r013100]
+dir_name = "r013100000"
+bank_name = "Банк бла бла бла"
+selected = true
+
+[map.r076500]
+dir_name = "r076500000"
+selected = false
+
+[map.r057400]
+dir_name = "r057400000"
+selected = false
+
+[map.r098200]
+dir_name = "r098200000"
+selected = false
+
+[map.r036100]
+dir_name = "r036100000"
+selected = false
+
+[map.r082600]
+dir_name = "r082600000"
+selected = false
+
+[map.r013200]
+dir_name = "r013200000"
+selected = false
+
+[map.r041300]
+dir_name = "r041300000"
+selected = false
+
+[map.r030800]
+dir_name = "r030800000"
+selected = false
+
+[map.r047300]
+dir_name = "r047300000"
+selected = false
+
+[map.r061900]
+dir_name = "r061900000"
+selected = false
+
+[map.r030100]
+dir_name = "r030100000"
+selected = false
+
+[map.r016700]
+dir_name = "r016700000"
+selected = false
+
+[map.r041800]
+dir_name = "r041800000"
+selected = false
+
+[map.r016200]
+dir_name = "r016200000"
+selected = false
+
+[map.r013700]
+dir_name = "r013700000"
+selected = false
+
+[map.r017600]
+dir_name = "r017600000"
+selected = false
+
+[map.r072500]
+dir_name = "r072500000"
+selected = false
+
+[map.r081500]
+dir_name = "r081500000"
+selected = false
+
+[map.r014400]
+dir_name = "r014400000"
+selected = false
