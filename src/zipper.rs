@@ -12,24 +12,30 @@ fn zip_recursive(progress_bar: &indicatif::ProgressBar, zip_root_dir: &str,  zip
         let entry = entry?;
         let name = entry.path();
         let name = name.to_str().unwrap();
-        let relative_path = name.split_once(&[zip_root_dir, "/"].concat()).unwrap();
-        //logger::info!("relative_path: {:?}, root_dir {}", relative_path, zip_root_dir);
-        let ty = entry.file_type()?;
-        if ty.is_dir() 
+        if let Some(relative_path) = name.split_once(&[zip_root_dir, std::path::MAIN_SEPARATOR_STR].concat())
         {
-            let relative_dir_path = [relative_path.1, "/"].concat();
-            //logger::info!("dir: {}", relative_dir_path,);
-            zip.add_directory(&relative_dir_path, compression_stored())?;
-            zip_recursive(progress_bar, zip_root_dir, zip, entry.path(), dst.as_ref().join(entry.file_name()))?;
-            
-        } 
+            //logger::info!("relative_path: {:?}, root_dir {}", relative_path, zip_root_dir);
+            let ty = entry.file_type()?;
+            if ty.is_dir() 
+            {
+                let relative_dir_path = [relative_path.1, std::path::MAIN_SEPARATOR_STR].concat();
+                //logger::info!("dir: {}", relative_dir_path,);
+                zip.add_directory(&relative_dir_path, compression_stored())?;
+                zip_recursive(progress_bar, zip_root_dir, zip, entry.path(), dst.as_ref().join(entry.file_name()))?;
+                
+            } 
+            else 
+            {
+                //logger::info!("file: {}", relative_path.1);
+                progress_bar.set_message(["архивация -> ", relative_path.1].concat());
+                zip.start_file(relative_path.1, zip_options(relative_path.1))?;
+                let file = utilites::io::read_file_to_binary(entry.path())?;
+                zip.write(&file)?;
+            }
+        }
         else 
         {
-            //logger::info!("file: {}", relative_path.1);
-            progress_bar.set_message(["архивация -> ", relative_path.1].concat());
-            zip.start_file(relative_path.1, zip_options(relative_path.1))?;
-            let file = utilites::io::read_file_to_binary(entry.path())?;
-            zip.write(&file)?;
+            return Err(zip::result::ZipError::InvalidArchive("Ошибка, определения корневой директории пакета"))
         }
     }
     Ok(())
